@@ -123,13 +123,27 @@ else
     FTP_TARGET_DIR=$(dirname "${FTP_TARGET_DIR}")
 fi
 
-mv -v "/ftp" ${DIR}
+# Retention
+if [ -z ${FTP_TRANSFER_RETENTION} ]; then
+    cat >&1 <<-EOT
+		INFO: FTP_TRANSFER_RETENTION not set, default 1d
+	EOT
+    FTP_TRANSFER_RETENTION=1d
+fi
 
 cat >&1 <<-EOT
 
 ----
 Successfully checked requirements!
 ----
+EOT
+
+transfer ()
+{
+mv -v "/ftp" ${DIR}
+mkkdir -p "/ftp"
+
+cat >&1 <<-EOT
 
 ----
 Begin transaction $(date)
@@ -220,3 +234,9 @@ EOT
 # ----
 # Cleanup
 rm -rf "${DIR}/*"
+}
+
+while true; do
+    transfer
+    sleep ${FTP_TRANSFER_RETENTION}
+done
