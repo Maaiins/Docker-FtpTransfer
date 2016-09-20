@@ -141,7 +141,7 @@ EOT
 transfer ()
 {
 mv -v "/ftp" ${DIR}
-mkkdir -p "/ftp"
+mkdir -p "/ftp"
 
 cat >&1 <<-EOT
 
