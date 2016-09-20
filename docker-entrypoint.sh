@@ -211,7 +211,7 @@ cat >&1 <<-EOT
 
 EOT
 
-mv -v /templates/* /ftp
+cp -a /templates/. /ftp
 
 # ----
 # Put files to target
