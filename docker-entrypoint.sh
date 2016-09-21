@@ -233,6 +233,7 @@ EOT
 # ----
 # Cleanup
 rm -rf "${DIR}"
+rm -rf "/ftp"
 mkdir -p "/ftp"
 }
 
