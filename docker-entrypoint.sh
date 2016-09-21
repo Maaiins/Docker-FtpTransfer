@@ -141,7 +141,6 @@ EOT
 transfer ()
 {
 mv -v "/ftp" ${DIR}
-mkdir -p "/ftp"
 
 cat >&1 <<-EOT
 
@@ -233,7 +232,8 @@ EOT
 
 # ----
 # Cleanup
-rm -rf "${DIR}/*"
+rm -rf "${DIR}"
+mkdir -p "/ftp"
 }
 
 while true; do
