@@ -140,7 +140,12 @@ EOT
 
 transfer ()
 {
-mv -v "/ftp" ${DIR}
+# ----
+# Cleanup
+rm -rf "${DIR}"
+rm -rf '/ftp'
+mkdir -p '/ftp'
+mv -v '/ftp' ${DIR}
 
 cat >&1 <<-EOT
 
@@ -229,12 +234,6 @@ cat >&1 <<-EOT
 End transaction $(date)
 ----
 EOT
-
-# ----
-# Cleanup
-rm -rf "${DIR}"
-rm -rf "/ftp"
-mkdir -p "/ftp"
 }
 
 while true; do
