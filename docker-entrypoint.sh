@@ -238,5 +238,8 @@ EOT
 
 while true; do
     transfer
+    if [ "${FTP_TRANSFER_RETENTION}" = false ] ; then
+        break
+    fi
     sleep ${FTP_TRANSFER_RETENTION}
 done
