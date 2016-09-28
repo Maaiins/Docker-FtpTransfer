@@ -175,7 +175,7 @@ fi
 
 # ----
 # Empty target folder
-if [ -z !${FTP_TARGET_REMOVE_DIR} ]; then
+if [ -z ${FTP_TARGET_REMOVE_DIR} ]; then
     cat >&1 <<-EOT
 		INFO: FTP_TARGET_REMOVE_DIR not set
 	EOT
