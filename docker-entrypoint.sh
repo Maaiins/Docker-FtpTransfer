@@ -142,10 +142,8 @@ transfer ()
 {
 # ----
 # Cleanup
-rm -rf "${DIR}"
 rm -rf '/ftp'
 mkdir -p '/ftp'
-mv -v '/ftp' ${DIR}
 
 cat >&1 <<-EOT
 
@@ -216,6 +214,8 @@ cat >&1 <<-EOT
 EOT
 
 cp -a /templates/. /ftp
+rm -rf "${DIR}"
+mv -v '/ftp' ${DIR}
 
 # ----
 # Put files to target
