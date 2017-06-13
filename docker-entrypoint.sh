@@ -99,9 +99,9 @@ fi
 
 if [ -z ${FTP_SOURCE_DIR} ]; then
     cat >&1 <<-EOT
-		INFO: FTP_SOURCE_DIR not set, default "/*"
+		INFO: FTP_SOURCE_DIR not set, default "/ftp/*"
 	EOT
-    FTP_SOURCE_DIR="/*"
+    FTP_SOURCE_DIR="/ftp/*"
 fi
 
 # Target FTP
