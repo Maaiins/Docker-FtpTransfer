@@ -99,9 +99,9 @@ fi
 
 if [ -z ${FTP_SOURCE_DIR} ]; then
     cat >&1 <<-EOT
-		INFO: FTP_SOURCE_DIR not set, default "/ftp/*"
+		INFO: FTP_SOURCE_DIR not set, default "/*"
 	EOT
-    FTP_SOURCE_DIR="/ftp/*"
+    FTP_SOURCE_DIR="/*"
 fi
 
 # Target FTP
@@ -114,9 +114,9 @@ fi
 
 if [ -z ${FTP_TARGET_DIR} ]; then
     cat >&1 <<-EOT
-		INFO: FTP_TARGET_DIR not set, default "/*"
+		INFO: FTP_TARGET_DIR not set, default "/"
 	EOT
-    FTP_TARGET_DIR="/*"
+    FTP_TARGET_DIR="/"
     DIR="/ftp"
 else
     DIR="/$(basename "${FTP_TARGET_DIR}")"
