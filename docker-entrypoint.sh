@@ -214,8 +214,10 @@ cat >&1 <<-EOT
 EOT
 
 cp -a /templates/. /ftp
-rm -rf "${DIR}"
-mv -v '/ftp' ${DIR}
+if [ ${DIR} != "/ftp" ]; then
+    rm -rf "${DIR}"
+    mv -v '/ftp' ${DIR}
+fi
 
 # ----
 # Put files to target
