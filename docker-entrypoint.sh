@@ -220,7 +220,6 @@ else
 
     cd "/ftp"
     rm -rf "${FTP_TARGET_EXCLUDE_DIR}"
-EOF
 fi
 
 # ----
