@@ -205,6 +205,25 @@ EOT
 ncftpget -R -v -u ${FTP_SOURCE_USER} -p ${FTP_SOURCE_PASSWORD} -P ${FTP_SOURCE_PORT} ${FTP_SOURCE_ADDRESS} '/ftp' "${FTP_SOURCE_DIR}"
 
 # ----
+# Exclude uploaded folder
+if [ -z ${FTP_TARGET_EXCLUDE_DIR} ]; then
+    cat >&1 <<-EOT
+		INFO: FTP_TARGET_EXCLUDE_DIR not set
+	EOT
+else
+    cat >&1 <<-EOT
+		----
+        Exclude folders from upload
+        ----
+
+	EOT
+
+    cd ${DIR}
+    rm -rf ${FTP_TARGET_EXCLUDE_DIR}
+EOF
+fi
+
+# ----
 # Move template files
 cat >&1 <<-EOT
     ----
