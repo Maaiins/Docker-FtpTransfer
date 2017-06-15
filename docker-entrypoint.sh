@@ -219,7 +219,7 @@ else
 	EOT
 
     cd "/ftp"
-    rm -rf ${FTP_TARGET_EXCLUDE_DIR}
+    rm -rf "${FTP_TARGET_EXCLUDE_DIR}"
 EOF
 fi
 
