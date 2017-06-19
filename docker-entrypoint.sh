@@ -168,7 +168,7 @@ else
 	EOT
 
     ncftp -u ${FTP_SOURCE_USER} -p ${FTP_SOURCE_PASSWORD} -P ${FTP_SOURCE_PORT} ${FTP_SOURCE_ADDRESS} <<EOF
-rm -rf ${FTP_SOURCE_REMOVE_DIR}
+rmdir -r ${FTP_SOURCE_REMOVE_DIR}
 quit
 EOF
 fi
@@ -202,7 +202,7 @@ cat >&1 <<-EOT
 
 EOT
 
-ncftpget -R -v -u ${FTP_SOURCE_USER} -p ${FTP_SOURCE_PASSWORD} -P ${FTP_SOURCE_PORT} ${FTP_SOURCE_ADDRESS} '/ftp' "${FTP_SOURCE_DIR}"
+ncftpget -R -T -v -u ${FTP_SOURCE_USER} -p ${FTP_SOURCE_PASSWORD} -P ${FTP_SOURCE_PORT} ${FTP_SOURCE_ADDRESS} '/ftp' "${FTP_SOURCE_DIR}"
 
 # ----
 # Exclude uploaded folder
