@@ -12,9 +12,9 @@ echo "    | |       | | (_| | (_| | | | | | |\\__ \\"
 echo "    |_|       |_|\__,_|\__,_|_|_|_| |_||__ /"
 cat >&1 <<-EOT
 
-----
-Checking requirements...
-----
+echo "----
+echo "Checking requirements...
+echo "----"
 
 EOT
 
@@ -167,7 +167,7 @@ else
 
 	EOT
 
-    ncftp -u ${FTP_SOURCE_USER} -p ${FTP_SOURCE_PASSWORD} -P ${FTP_SOURCE_PORT} ${FTP_SOURCE_ADDRESS} <<EOF
+    ncftp -u ${FTP_SOURCE_USER} -p ${FTP_SOURCE_PASSWORD} -P ${FTP_SOURCE_PORT} ${FTP_SOURCE_ADDRESS} 2>&1 <<EOF
 rmdir -r ${FTP_SOURCE_REMOVE_DIR}
 quit
 EOF
@@ -187,7 +187,7 @@ else
 
 	EOT
 
-    ncftp -u ${FTP_TARGET_USER} -p ${FTP_TARGET_PASSWORD} -P ${FTP_TARGET_PORT} ${FTP_TARGET_ADDRESS} <<EOF
+    ncftp -u ${FTP_TARGET_USER} -p ${FTP_TARGET_PASSWORD} -P ${FTP_TARGET_PORT} ${FTP_TARGET_ADDRESS} 2>&1 <<EOF
 rmdir -r ${FTP_TARGET_REMOVE_DIR}
 quit
 EOF
@@ -202,7 +202,7 @@ cat >&1 <<-EOT
 
 EOT
 
-ncftpget -R -T -v -u ${FTP_SOURCE_USER} -p ${FTP_SOURCE_PASSWORD} -P ${FTP_SOURCE_PORT} ${FTP_SOURCE_ADDRESS} '/ftp' "${FTP_SOURCE_DIR}"
+ncftpget -R -T -v -u ${FTP_SOURCE_USER} -p ${FTP_SOURCE_PASSWORD} -P ${FTP_SOURCE_PORT} ${FTP_SOURCE_ADDRESS} '/ftp' "${FTP_SOURCE_DIR}" 2>&1
 
 # ----
 # Exclude uploaded folder
@@ -246,7 +246,7 @@ cat >&1 <<-EOT
 
 EOT
 
-ncftpput -R -v -m -u ${FTP_TARGET_USER} -p ${FTP_TARGET_PASSWORD} -P ${FTP_TARGET_PORT} ${FTP_TARGET_ADDRESS} "${FTP_TARGET_DIR}" "${DIR}"
+ncftpput -R -v -m -u ${FTP_TARGET_USER} -p ${FTP_TARGET_PASSWORD} -P ${FTP_TARGET_PORT} ${FTP_TARGET_ADDRESS} "${FTP_TARGET_DIR}" "${DIR}" 2>&1
 
 cat >&1 <<-EOT
 
