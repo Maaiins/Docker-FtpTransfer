@@ -142,8 +142,8 @@ transfer ()
 {
 # ----
 # Cleanup
-rm -rf '/ftp'
-mkdir -p '/ftp'
+#rm -rf '/ftp'
+#mkdir -p '/ftp'
 
 cat >&1 <<-EOT
 
