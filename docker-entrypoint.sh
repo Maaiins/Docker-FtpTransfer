@@ -12,9 +12,9 @@ echo "    | |       | | (_| | (_| | | | | | |\\__ \\"
 echo "    |_|       |_|\__,_|\__,_|_|_|_| |_||__ /"
 cat >&1 <<-EOT
 
-echo "----
-echo "Checking requirements...
-echo "----"
+----
+Checking requirements...
+----
 
 EOT
 
