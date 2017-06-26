@@ -196,8 +196,7 @@ cat >&1 <<-EOT
 
 EOT
 
-ncftpget -R -T -v -u ${FTP_SOURCE_USER} -p ${FTP_SOURCE_PASSWORD} -P ${FTP_SOURCE_PORT} ${FTP_SOURCE_ADDRESS} '/ftp' "${FTP_SOURCE_DIR}" && echo success || echo epic fail
-exit
+ncftpget -R -T -v -u ${FTP_SOURCE_USER} -p ${FTP_SOURCE_PASSWORD} -P ${FTP_SOURCE_PORT} ${FTP_SOURCE_ADDRESS} '/ftp' "${FTP_SOURCE_DIR}" 2>&1 || echo "INFO: Try to continue ftp-transfer"
 
 # ----
 # Exclude uploaded folder
