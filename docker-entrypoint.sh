@@ -167,7 +167,7 @@ else
 
 	EOT
 
-    printf "rm -rf ${FTP_SOURCE_REMOVE_DIR}\nrmdir -r ${FTP_SOURCE_REMOVE_DIR}\nquit\n" | ncftp -u ${FTP_SOURCE_USER} -p ${FTP_SOURCE_PASSWORD} -P ${FTP_SOURCE_PORT} ${FTP_SOURCE_ADDRESS} 2>&1
+    printf "lrm ${FTP_SOURCE_REMOVE_DIR}\nquit\n" | ncftp -u ${FTP_SOURCE_USER} -p ${FTP_SOURCE_PASSWORD} -P ${FTP_SOURCE_PORT} ${FTP_SOURCE_ADDRESS} 2>&1
 fi
 
 # ----
@@ -184,7 +184,7 @@ else
 
 	EOT
 
-    printf "rm -rf ${FTP_TARGET_REMOVE_DIR}\nrmdir -r ${FTP_TARGET_REMOVE_DIR}\nquit\n" | ncftp -u ${FTP_TARGET_USER} -p ${FTP_TARGET_PASSWORD} -P ${FTP_TARGET_PORT} ${FTP_TARGET_ADDRESS} 2>&1
+    printf "lrm -rf ${FTP_TARGET_REMOVE_DIR}\nquit\n" | ncftp -u ${FTP_TARGET_USER} -p ${FTP_TARGET_PASSWORD} -P ${FTP_TARGET_PORT} ${FTP_TARGET_ADDRESS} 2>&1
 fi
 
 # ----
@@ -213,9 +213,9 @@ else
 	EOT
 
     cd "/ftp"
-    rm -rf "${FTP_TARGET_EXCLUDE_DIR}"
+    rm -rf ${FTP_TARGET_EXCLUDE_DIR}
 fi
-
+exit
 # ----
 # Move template files
 cat >&1 <<-EOT
