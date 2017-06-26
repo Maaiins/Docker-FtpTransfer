@@ -167,10 +167,7 @@ else
 
 	EOT
 
-    ncftp -u ${FTP_SOURCE_USER} -p ${FTP_SOURCE_PASSWORD} -P ${FTP_SOURCE_PORT} ${FTP_SOURCE_ADDRESS} 2>&1 <<EOF
-rmdir -r ${FTP_SOURCE_REMOVE_DIR}
-quit
-EOF
+    printf "rm -rf ${FTP_SOURCE_REMOVE_DIR}\nquit\n" | ncftp -u ${FTP_SOURCE_USER} -p ${FTP_SOURCE_PASSWORD} -P ${FTP_SOURCE_PORT} ${FTP_SOURCE_ADDRESS} 2>&1
 fi
 
 # ----
@@ -187,10 +184,7 @@ else
 
 	EOT
 
-    ncftp -u ${FTP_TARGET_USER} -p ${FTP_TARGET_PASSWORD} -P ${FTP_TARGET_PORT} ${FTP_TARGET_ADDRESS} 2>&1 <<EOF
-rmdir -r ${FTP_TARGET_REMOVE_DIR}
-quit
-EOF
+    printf "rm -rf ${FTP_TARGET_REMOVE_DIR}\nquit\n" | ncftp -u ${FTP_TARGET_USER} -p ${FTP_TARGET_PASSWORD} -P ${FTP_TARGET_PORT} ${FTP_TARGET_ADDRESS} 2>&1
 fi
 
 # ----
