@@ -1,8 +1,32 @@
 #!/bin/sh
 set -e
 
-# ----
-# Check env variables
+stdout () {
+cat >&1 <<-EOT
+${1}
+EOT
+}
+
+stderr () {
+cat >&2 <<-EOT
+${1}
+EOT
+}
+
+exists () {
+if [ -z ${1} ]; then
+    # ----
+    stderr "ERROR: you need to set ${2}"
+    # ----
+
+    exit 1
+else
+    # ----
+    stdout "OK: ${2} set"
+    # ----
+fi
+}
+
 
 echo "     _ _     _ _             _ _ "
 echo "    |   \   /   |           (_)_)"
@@ -10,112 +34,47 @@ echo "    | |\ \ / /| | __ _  __ _ _ _ _  __   __"
 echo "    | | \ _ / | |/ _\` |/ _\` | | | '_  \\/ __|"
 echo "    | |       | | (_| | (_| | | | | | |\\__ \\"
 echo "    |_|       |_|\__,_|\__,_|_|_|_| |_||__ /"
-cat >&1 <<-EOT
-
-----
-Checking requirements...
-----
-
-EOT
-
-# Source FTP
-if [ -z ${FTP_SOURCE_ADDRESS} ]; then
-    cat >&2 <<-EOT
-		ERROR: you need to specify FTP_SOURCE_ADDRESS
-	EOT
-    exit 1
-else
-    cat >&1 <<-EOT
-		OK: FTP_SOURCE_ADDRESS is given
-	EOT
-fi
-
-if [ -z ${FTP_SOURCE_USER} ]; then
-    cat >&2 <<-EOT
-		ERROR: you need to specify FTP_SOURCE_USER
-	EOT
-    exit 1
-else
-    cat >&1 <<-EOT
-		OK: FTP_SOURCE_USER is given
-	EOT
-fi
-
-if [ -z ${FTP_SOURCE_PASSWORD} ]; then
-    cat >&2 <<-EOT
-		ERROR: you need to specify FTP_SOURCE_PASSWORD
-	EOT
-    exit 1
-else
-    cat >&1 <<-EOT
-		OK: FTP_SOURCE_PASSWORD is given
-	EOT
-fi
-
-# Target FTP
-if [ -z ${FTP_TARGET_ADDRESS} ]; then
-    cat >&2 <<-EOT
-		ERROR: you need to specify FTP_TARGET_ADDRESS
-	EOT
-    exit 1
-else
-    cat >&1 <<-EOT
-		OK: FTP_TARGET_ADDRESS is given
-	EOT
-fi
-
-if [ -z ${FTP_TARGET_USER} ]; then
-    cat >&2 <<-EOT
-		ERROR: you need to specify FTP_TARGET_USER
-	EOT
-    exit 1
-else
-    cat >&1 <<-EOT
-		OK: FTP_TARGET_USER is given
-	EOT
-fi
-
-if [ -z ${FTP_TARGET_PASSWORD} ]; then
-    cat >&2 <<-EOT
-		ERROR: you need to specify FTP_TARGET_PASSWORD
-	EOT
-    exit 1
-else
-    cat >&1 <<-EOT
-		OK: FTP_TARGET_PASSWORD is given
-	EOT
-fi
 
 # ----
-# Set default values if not provided
+stdout "Checking requirements..."
+# ----
 
-# Source FTP
+exists ${FTP_SOURCE_ADDRESS} "FTP_SOURCE_ADDRESS"
+exists ${FTP_SOURCE_USER} "FTP_SOURCE_USER"
+exists ${FTP_SOURCE_PASSWORD} "FTP_SOURCE_PASSWORD"
+exists ${FTP_TARGET_ADDRESS} "FTP_TARGET_ADDRESS"
+exists ${FTP_TARGET_USER} "FTP_TARGET_USER"
+exists ${FTP_TARGET_PASSWORD} "FTP_TARGET_PASSWORD"
+
 if [ -z ${FTP_SOURCE_PORT} ]; then
-    cat >&1 <<-EOT
-		INFO: FTP_SOURCE_PORT not set, default 21
-	EOT
+    # ----
+    stdout "INFO: FTP_SOURCE_PORT not set, default 21"
+    # ----
+
     FTP_SOURCE_PORT=21
 fi
 
 if [ -z ${FTP_SOURCE_DIR} ]; then
-    cat >&1 <<-EOT
-		INFO: FTP_SOURCE_DIR not set, default "/*"
-	EOT
+    # ----
+    stdout "INFO: FTP_SOURCE_DIR not set, default /*"
+    # ----
+
     FTP_SOURCE_DIR="/*"
 fi
 
-# Target FTP
 if [ -z ${FTP_TARGET_PORT} ]; then
-    cat >&1 <<-EOT
-		INFO: FTP_TARGET_PORT not set, default 21
-	EOT
+    # ----
+    stdout "INFO: FTP_TARGET_PORT not set, default 21"
+    # ----
+
     FTP_TARGET_PORT=21
 fi
 
 if [ -z ${FTP_TARGET_DIR} ]; then
-    cat >&1 <<-EOT
-		INFO: FTP_TARGET_DIR not set, default "/"
-	EOT
+    # ----
+    stdout "INFO: FTP_TARGET_DIR not set, default /*"
+    # ----
+
     FTP_TARGET_DIR="/"
     DIR="/ftp"
 else
@@ -123,137 +82,83 @@ else
     FTP_TARGET_DIR=$(dirname "${FTP_TARGET_DIR}")
 fi
 
-# Retention
-if [ -z ${FTP_TRANSFER_RETENTION} ]; then
-    cat >&1 <<-EOT
-		INFO: FTP_TRANSFER_RETENTION not set, default 1d
-	EOT
-    FTP_TRANSFER_RETENTION=1d
-fi
-
-cat >&1 <<-EOT
-
-----
-Successfully checked requirements!
-----
-EOT
-
-transfer ()
-{
 # ----
-# Cleanup
+stdout "Successfully checked requirements!"
+# ----
+
+# ----
+stdout "Cleanup local folders"
+# ----
+
 rm -rf '/ftp'
+rm -rf "${DIR}"
 mkdir -p '/ftp'
 
-cat >&1 <<-EOT
-
-----
-Begin transaction $(date)
-----
-
-EOT
-
 # ----
-# Empty source folder
+stdout "Begin transaction $(date)"
+# ----
+
+# Remove directories on source ftp
 if [ -z ${FTP_SOURCE_REMOVE_DIR} ]; then
-    cat >&1 <<-EOT
-		INFO: FTP_SOURCE_REMOVE_DIR not set
-	EOT
+    # ----
+    stdout "INFO: FTP_SOURCE_REMOVE_DIR not set"
+    # ----
 else
-    cat >&1 <<-EOT
-		----
-        Removing folders from source
-        ----
+    # ----
+    stdout "Removing folders from source"
+    # ----
 
-	EOT
-
-    printf "lrm ${FTP_SOURCE_REMOVE_DIR}\nquit\n" | ncftp -u ${FTP_SOURCE_USER} -p ${FTP_SOURCE_PASSWORD} -P ${FTP_SOURCE_PORT} ${FTP_SOURCE_ADDRESS} 2>&1
+    printf "lrm -rf ${FTP_SOURCE_REMOVE_DIR}\nquit\n" | ncftp -u ${FTP_SOURCE_USER} -p ${FTP_SOURCE_PASSWORD} -P ${FTP_SOURCE_PORT} ${FTP_SOURCE_ADDRESS} 2>&1
 fi
 
-# ----
-# Empty target folder
+# Remove directories on target ftp
 if [ -z ${FTP_TARGET_REMOVE_DIR} ]; then
-    cat >&1 <<-EOT
-		INFO: FTP_TARGET_REMOVE_DIR not set
-	EOT
+    # ----
+    stdout "INFO: FTP_TARGET_REMOVE_DIR not set"
+    # ----
 else
-    cat >&1 <<-EOT
-		----
-        Removing folders from target
-        ----
-
-	EOT
+    # ----
+    stdout "Removing folders from target"
+    # ----
 
     printf "lrm -rf ${FTP_TARGET_REMOVE_DIR}\nquit\n" | ncftp -u ${FTP_TARGET_USER} -p ${FTP_TARGET_PASSWORD} -P ${FTP_TARGET_PORT} ${FTP_TARGET_ADDRESS} 2>&1
 fi
 
 # ----
-# Get files from source
-cat >&1 <<-EOT
-    ----
-    Collecting files from source ftp
-    ----
-
-EOT
+stdout "Collecting files from source ftp"
+# ----
 
 ncftpget -R -T -v -u ${FTP_SOURCE_USER} -p ${FTP_SOURCE_PASSWORD} -P ${FTP_SOURCE_PORT} ${FTP_SOURCE_ADDRESS} '/ftp' "${FTP_SOURCE_DIR}" 2>&1 || echo "INFO: Try to continue ftp-transfer"
 
-# ----
-# Exclude uploaded folder
 if [ -z ${FTP_TARGET_EXCLUDE_DIR} ]; then
-    cat >&1 <<-EOT
-		INFO: FTP_TARGET_EXCLUDE_DIR not set
-	EOT
+    # ----
+	stdout "INFO: FTP_TARGET_EXCLUDE_DIR not set"
+	# ----
 else
-    cat >&1 <<-EOT
-		----
-        Exclude folders from upload
-        ----
-
-	EOT
+    # ----
+    stdout "Exclude folders from upload"
+    # ----
 
     cd "/ftp"
     rm -rf ${FTP_TARGET_EXCLUDE_DIR}
 fi
 exit
-# ----
-# Move template files
-cat >&1 <<-EOT
-    ----
-    Moving templates to source files
-    ----
 
-EOT
+# ----
+stdout "Moving templates to source files"
+# ----
 
 cp -a /templates/. /ftp
 if [ ${DIR} != "/ftp" ]; then
-    rm -rf "${DIR}"
     mv -v '/ftp' ${DIR}
 fi
 
 # ----
-# Put files to target
-cat >&1 <<-EOT
-    ----
-    Upload files to target ftp
-    ----
-
-EOT
+stdout "Upload files to target ftp"
+# ----
 
 ncftpput -R -v -m -u ${FTP_TARGET_USER} -p ${FTP_TARGET_PASSWORD} -P ${FTP_TARGET_PORT} ${FTP_TARGET_ADDRESS} "${FTP_TARGET_DIR}" "${DIR}" 2>&1
 
-cat >&1 <<-EOT
-
-----
-End transaction $(date)
-----
-EOT
-}
-
-while true; do
-    transfer
-    if [ "${FTP_TRANSFER_RETENTION}" = false ] ; then
-        break
-    fi
-    sleep ${FTP_TRANSFER_RETENTION}
-done
+# ----
+stdout "End transaction $(date)"
+# ----

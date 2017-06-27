@@ -19,7 +19,6 @@ To run it:
           -e "FTP_TARGET_REMOVE_DIR=/bar /foo" \  # Only needed if you like to remove one directory or multiple directories
           -e "FTP_TARGET_USER=user" \
           -e "FTP_TARGET_PASSWORD=password" \
-          -e "FTP_TARGET_EXCLUDE_DIR=/bar /foo" \ # Only needed if you wish to exclude dirs from upload
-          -e "FTP_TRANSFER_RETENTION=1d" \ # Only needed if you like to shedule transfer different to a day
+          -e "FTP_TARGET_EXCLUDE_DIR=./bar ./foo" \ # Only needed if you wish to exclude dirs from upload
           -v /foo/bar:/templates \ # Needed when you like to overwrite static files from the ftp source on target
           maaiins/ftp-transfer
