@@ -114,7 +114,7 @@ else
     # ----
 
     cd "/ftp"
-    "${FTP_TARGET_EXCLUDE_DIR}" | while read f
+    ${FTP_TARGET_EXCLUDE_DIR} | while read f
     do
         rm -rf ${f}
     done
