@@ -102,7 +102,7 @@ stdout "Begin transaction $(date)"
 stdout "Collecting files from source ftp"
 # ----
 
-#ncftpget -R -T -v -u ${FTP_SOURCE_USER} -p ${FTP_SOURCE_PASSWORD} -P ${FTP_SOURCE_PORT} ${FTP_SOURCE_ADDRESS} '/ftp' "${FTP_SOURCE_DIR}" 2>&1 || echo "INFO: Try to continue ftp-transfer"
+ncftpget -R -T -v -u ${FTP_SOURCE_USER} -p ${FTP_SOURCE_PASSWORD} -P ${FTP_SOURCE_PORT} ${FTP_SOURCE_ADDRESS} '/ftp' "${FTP_SOURCE_DIR}" 2>&1 || echo "INFO: Try to continue ftp-transfer"
 
 if [ -z "${FTP_TARGET_EXCLUDE_DIR}" ]; then
     # ----
@@ -119,7 +119,6 @@ else
         rm -rf ${f}
     done
 fi
-exit
 
 # ----
 stdout "Moving templates to source files"
