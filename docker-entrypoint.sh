@@ -104,21 +104,19 @@ stdout "Collecting files from source ftp"
 
 ncftpget -R -T -v -u ${FTP_SOURCE_USER} -p ${FTP_SOURCE_PASSWORD} -P ${FTP_SOURCE_PORT} ${FTP_SOURCE_ADDRESS} '/ftp' "${FTP_SOURCE_DIR}" 2>&1 || echo "INFO: Try to continue ftp-transfer"
 
-if [ -z "${FTP_TARGET_EXCLUDE_DIR}" ]; then
+if [ -z "${BASH_COMMAND}" ]; then
     # ----
-	stdout "INFO: FTP_TARGET_EXCLUDE_DIR not set"
+	stdout "INFO: BASH_COMMAND not set"
 	# ----
 else
     # ----
-    stdout "Exclude folders from upload"
+    stdout "Executing bash command"
     # ----
 
     cd "/ftp"
-    echo "${FTP_TARGET_EXCLUDE_DIR}" | while read f
-    do
-        rm -rf ${f}
-    done
+    eval ${BASH_COMMAND} || echo "INFO: Try to continue ftp-transfer"
 fi
+exit
 
 # ----
 stdout "Moving templates to source files"
