@@ -98,32 +98,6 @@ mkdir -p '/ftp'
 stdout "Begin transaction $(date)"
 # ----
 
-# Remove directories on source ftp
-if [ -z ${FTP_SOURCE_REMOVE_DIR} ]; then
-    # ----
-    stdout "INFO: FTP_SOURCE_REMOVE_DIR not set"
-    # ----
-else
-    # ----
-    stdout "Removing folders from source"
-    # ----
-
-    printf "lrm -rf ${FTP_SOURCE_REMOVE_DIR}\nquit\n" | ncftp -u ${FTP_SOURCE_USER} -p ${FTP_SOURCE_PASSWORD} -P ${FTP_SOURCE_PORT} ${FTP_SOURCE_ADDRESS} 2>&1
-fi
-
-# Remove directories on target ftp
-if [ -z ${FTP_TARGET_REMOVE_DIR} ]; then
-    # ----
-    stdout "INFO: FTP_TARGET_REMOVE_DIR not set"
-    # ----
-else
-    # ----
-    stdout "Removing folders from target"
-    # ----
-
-    printf "lrm -rf ${FTP_TARGET_REMOVE_DIR}\nquit\n" | ncftp -u ${FTP_TARGET_USER} -p ${FTP_TARGET_PASSWORD} -P ${FTP_TARGET_PORT} ${FTP_TARGET_ADDRESS} 2>&1
-fi
-
 # ----
 stdout "Collecting files from source ftp"
 # ----
@@ -140,7 +114,10 @@ else
     # ----
 
     cd "/ftp"
-    rm -rf ${FTP_TARGET_EXCLUDE_DIR}
+    "${FTP_TARGET_EXCLUDE_DIR}" | while read f
+    do
+        rm -rf ${f}
+    done
 fi
 exit
 
