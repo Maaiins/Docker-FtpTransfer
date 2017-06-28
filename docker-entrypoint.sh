@@ -114,9 +114,9 @@ else
     # ----
 
     cd "/ftp"
-    eval ${BASH_COMMAND} || echo "INFO: Try to continue ftp-transfer"
+    $(BASH_COMMAND) || echo "INFO: Try to continue ftp-transfer"
 fi
-
+exit
 # ----
 stdout "Moving templates to source files"
 # ----
