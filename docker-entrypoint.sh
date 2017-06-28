@@ -116,7 +116,7 @@ else
     cd "/ftp"
     ${BASH_COMMAND} >&1 || echo "INFO: Try to continue ftp-transfer"
 fi
-exit
+
 # ----
 stdout "Moving templates to source files"
 # ----
