@@ -114,7 +114,7 @@ else
     # ----
 
     cd "/ftp"
-    $(BASH_COMMAND) >&1 || echo "INFO: Try to continue ftp-transfer"
+    ${BASH_COMMAND} >&1 || echo "INFO: Try to continue ftp-transfer"
 fi
 exit
 # ----
