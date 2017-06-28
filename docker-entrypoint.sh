@@ -106,15 +106,15 @@ ncftpget -R -T -v -u ${FTP_SOURCE_USER} -p ${FTP_SOURCE_PASSWORD} -P ${FTP_SOURC
 
 if [ -z "${BASH_COMMAND}" ]; then
     # ----
-	stdout "INFO: BASH_COMMAND not set"
-	# ----
+    stdout "INFO: BASH_COMMAND not set"
+    # ----
 else
     # ----
     stdout "Executing bash command"
     # ----
 
     cd "/ftp"
-    $(BASH_COMMAND) || echo "INFO: Try to continue ftp-transfer"
+    $(BASH_COMMAND) >&1 || echo "INFO: Try to continue ftp-transfer"
 fi
 exit
 # ----
