@@ -95,6 +95,15 @@ rm -rf "${DIR}"
 mkdir -p '/ftp'
 
 # ----
+stdout "Cleanup remote folders"
+# ----
+
+ncftp -u ${FTP_TARGET_USER} -p ${FTP_TARGET_PASSWORD} -P ${FTP_TARGET_PORT} ${FTP_TARGET_ADDRESS} 2>&1 <<EOF
+rm -r "${FTP_TARGET_DIR}"
+quit
+EOF
+
+# ----
 stdout "Begin transaction $(date)"
 # ----
 
