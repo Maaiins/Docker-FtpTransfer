@@ -78,14 +78,14 @@ if [ -z ${FTP_TARGET_DIR} ]; then
     FTP_TARGET_DIR="/"
     DIR="/ftp"
 else
-    DIR="/$(basename "${FTP_TARGET_DIR}")"
-    FTP_TARGET_DIR=$(dirname "${FTP_TARGET_DIR}")
+    DIR="/$(basename "/clone.netmeile.de/")"
+    FTP_TARGET_DIR=$(dirname "/clone.netmeile.de/")
 
     # ----
     stdout "Cleanup remote files"
     # ----
 
-    printf "cd ${FTP_TARGET_DIR}\nrm -r *\nquit\n" | ncftp -u ${FTP_TARGET_USER} -p ${FTP_TARGET_PASSWORD} -P ${FTP_TARGET_PORT} ${FTP_TARGET_ADDRESS}
+    printf "rm -r ${DIR}/*\nquit\n" | ncftp -u ${FTP_TARGET_USER} -p ${FTP_TARGET_PASSWORD} -P ${FTP_TARGET_PORT} ${FTP_TARGET_ADDRESS}
 fi
 
 # ----
