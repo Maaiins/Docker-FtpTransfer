@@ -78,8 +78,8 @@ if [ -z ${FTP_TARGET_DIR} ]; then
     FTP_TARGET_DIR="/"
     DIR="/ftp"
 else
-    DIR="/$(basename "/clone.netmeile.de/")"
-    FTP_TARGET_DIR=$(dirname "/clone.netmeile.de/")
+    DIR="/$(basename "${FTP_TARGET_DIR}")"
+    FTP_TARGET_DIR=$(dirname "${FTP_TARGET_DIR}")
 
     # ----
     stdout "Cleanup remote files"
