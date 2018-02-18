@@ -123,7 +123,7 @@ stdout "Moving templates to source files"
 
 cp -a /templates/. /ftp
 if [ ${DIR} != "/ftp" ]; then
-    ln '/ftp' ${DIR}
+    ln -s '/ftp' ${DIR}
 fi
 
 # ----
