@@ -92,10 +92,6 @@ fi
 stdout "Successfully checked requirements!"
 # ----
 
-# ----
-stdout "Cleanup local folders"
-# ----
-
 mkdir -p '/ftp'
 
 # ----
@@ -127,7 +123,7 @@ stdout "Moving templates to source files"
 
 cp -a /templates/. /ftp
 if [ ${DIR} != "/ftp" ]; then
-    cp -l '/ftp' ${DIR}
+    ln '/ftp' ${DIR}
 fi
 
 # ----
